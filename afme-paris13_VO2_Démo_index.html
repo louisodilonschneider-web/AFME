@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AFME Paris 13 — Préparation CAPEPS</title>
+  <style>
+/* ==========================================================================
+   AFME Paris 13 — design tokens
+   Palette : encre académique + papier + accent ocre (esprit "dossier de
+   concours" : copies, fiches, classeurs)
+   Display : "Source Serif 4" (titres, esprit manuel scolaire)
+   Body    : "Inter" (lisibilité écran)
+   ========================================================================== */
+
+:root {
+  --ink: #1b2a4a;        /* bleu encre - header, titres */
+  --ink-soft: #3a4a6b;
+  --paper: #f7f5ef;      /* fond, esprit papier */
+  --paper-dark: #ece7da;
+  --ochre: #c98a3e;      /* accent - signature couleur */
+  --ochre-dark: #a86c28;
+  --sage: #7c8b6f;       /* secondaire - validation / téléchargement */
+  --line: #d8d2c2;
+  --text: #21283a;
+  --text-muted: #5b6072;
+  --white: #ffffff;
+  --danger: #b5483f;
+
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+
+  --radius: 3px;
+  --shadow-card: 0 1px 2px rgba(27, 42, 74, 0.08), 0 2px 8px rgba(27, 42, 74, 0.05);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+}
+
+a { color: var(--ink); }
+a:hover { color: var(--ochre-dark); }
+
+:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+
+/* ---------- Header / nav ---------- */
+
+.site-header {
+  background: var(--ink);
+  color: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 3px solid var(--ochre);
+}
+
+.site-header__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.6rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-header__brand {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.site-header__brand small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--paper-dark);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+nav.main-nav {
+  flex: 1;
+  display: flex;
+}
+
+nav.main-nav > ul {
+  list-style: none;
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+nav.main-nav a {
+  display: block;
+  color: var(--paper);
+  text-decoration: none;
+  font-size: 0.86rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: var(--radius);
+}
+
+nav.main-nav > ul > li > a:hover,
+nav.main-nav > ul > li.is-active > a {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+}
+
+nav.main-nav li { position: relative; }
+
+nav.main-nav .submenu {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: var(--white);
+  color: var(--text);
+  min-width: 230px;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--ochre);
+  box-shadow: var(--shadow-card);
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem;
+}
+
+nav.main-nav li:hover > .submenu,
+nav.main-nav li:focus-within > .submenu {
+  display: block;
+}
+
+nav.main-nav .submenu a {
+  color: var(--text);
+  font-size: 0.82rem;
+  padding: 0.45rem 0.6rem;
+}
+
+nav.main-nav .submenu a:hover { background: var(--paper); color: var(--ink); }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+/* ---------- Layout shells ---------- */
+
+.page-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.hero {
+  background: linear-gradient(180deg, var(--ink) 0%, #233a63 100%);
+  color: var(--paper);
+  padding: 3rem 1.25rem 3.5rem;
+}
+
+.hero__inner { max-width: 900px; margin: 0 auto; }
+
+.hero .eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  font-weight: 600;
+}
+
+.hero h1 {
+  color: var(--white);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-top: 0.4rem;
+}
+
+.hero p { color: var(--paper-dark); max-width: 60ch; }
+
+.content-section {
+  padding: 2.5rem 0;
+}
+
+.breadcrumb {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.9rem 0 0;
+}
+
+.breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--ink); text-decoration: underline; }
+
+/* ---------- Page sidebar (sub-nav within a formation) ---------- */
+
+.with-sidebar {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.page-sidebar {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+  position: sticky;
+  top: 4.5rem;
+}
+
+.page-sidebar h2 {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ochre-dark);
+  margin-bottom: 0.6rem;
+}
+
+.page-sidebar ul { list-style: none; margin: 0; padding: 0; }
+
+.page-sidebar li a {
+  display: block;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+.page-sidebar li a:hover { background: var(--paper); }
+.page-sidebar li.is-active a { background: var(--paper-dark); font-weight: 600; }
+
+/* ---------- "Dossier" cards (signature element) ---------- */
+
+.docboard {
+  border: 1px solid var(--line);
+  background: var(--white);
+  border-radius: var(--radius);
+}
+
+.docboard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-dark);
+}
+
+.docboard__head h3 { margin: 0; font-size: 1.05rem; }
+.docboard__head p { margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--text-muted); }
+
+.doc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.6rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.doc-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ochre);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.doc-card__icon {
+  width: 34px; height: 34px;
+  flex: none;
+  border-radius: var(--radius);
+  background: var(--paper-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.doc-card__body { flex: 1; min-width: 0; }
+.doc-card__name { font-weight: 600; font-size: 0.92rem; overflow-wrap: anywhere; }
+.doc-card__meta { font-size: 0.76rem; color: var(--text-muted); }
+
+.doc-card__action {
+  flex: none;
+  font-size: 0.8rem;
+  text-decoration: none;
+  border: 1px solid var(--sage);
+  color: var(--sage);
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.doc-card__action:hover { background: var(--sage); color: var(--white); }
+
+.doc-empty {
+  padding: 1.4rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+/* ---------- Upload zone ---------- */
+
+.upload-zone {
+  border-top: 1px dashed var(--line);
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.upload-zone[hidden] { display: none; }
+
+.upload-zone__row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.upload-zone input[type="text"],
+.upload-zone input[type="file"] {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.upload-zone input[type="text"] { flex: 1; min-width: 180px; }
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+.btn-primary { background: var(--ochre); color: var(--white); }
+.btn-primary:hover { background: var(--ochre-dark); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn-ghost:hover { background: var(--paper); }
+
+.upload-status {
+  font-size: 0.78rem;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+}
+
+.upload-status[data-state="error"] { color: var(--danger); }
+.upload-status[data-state="ok"] { color: var(--sage); }
+
+.progress-track {
+  height: 5px;
+  border-radius: 4px;
+  background: var(--paper-dark);
+  margin-top: 0.5rem;
+  overflow: hidden;
+  display: none;
+}
+
+.progress-track[data-active="true"] { display: block; }
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--ochre);
+  transition: width 0.2s ease;
+}
+
+/* ---------- Auth bar ---------- */
+
+.auth-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.82rem;
+}
+
+.auth-bar__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.45rem 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-muted);
+}
+
+.auth-bar input {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.auth-bar button.btn { padding: 0.35rem 0.7rem; font-size: 0.78rem; }
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  margin-top: 3rem;
+  background: var(--ink);
+  color: var(--paper-dark);
+  padding: 1.6rem 1.25rem;
+  font-size: 0.8rem;
+}
+
+.site-footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site-footer a { color: var(--paper-dark); }
+
+/* ---------- Embeds (calendars) ---------- */
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.calendar-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.calendar-card h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem 0;
+}
+
+.calendar-card iframe {
+  width: 100%;
+  height: 380px;
+  border: 0;
+  display: block;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .with-sidebar { grid-template-columns: 1fr; }
+  .page-sidebar { position: static; }
+  .calendar-grid { grid-template-columns: 1fr; }
+  nav.main-nav {
+    display: none;
+    position: absolute;
+    left: 0; right: 0; top: 100%;
+    background: var(--ink);
+    padding: 0.5rem 1.25rem 1rem;
+    flex-direction: column;
+  }
+  nav.main-nav.is-open { display: flex; }
+  nav.main-nav > ul { flex-direction: column; }
+  nav.main-nav .submenu { position: static; display: block; background: rgba(255,255,255,0.05); border: none; box-shadow: none; }
+  nav.main-nav .submenu a { color: var(--paper-dark); }
+  .nav-toggle { display: inline-block; margin-left: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- Mode single-page (sections routées par hash) ---------- */
+
+.route-section[hidden] { display: none; }
+
+/* ---------- Bouton "+" pour révéler le formulaire de dépôt sur une page ---------- */
+
+.upload-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.85rem 1.25rem 0;
+}
+
+.upload-toggle::before {
+  content: "+";
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.upload-form[hidden] { display: none; }
+
+.upload-form {
+  padding: 0.85rem 1.25rem 1.1rem;
+}
+
+/* ---------- Page de dépôt centralisé ---------- */
+
+.central-upload {
+  max-width: 640px;
+}
+
+.central-upload select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  margin-bottom: 0.7rem;
+}
+
+.central-upload label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
+}
+
+.central-upload .field { margin-bottom: 0.9rem; }
+
+.central-upload .signin-notice {
+  background: var(--paper-dark);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="#accueil">
+        AFME Paris 13
+        <small>Préparation CAPEPS</small>
+      </a>
+      <nav class="main-nav" id="main-nav">
+        <ul>
+          <li><a href="#accueil">Accueil</a></li><li><a href="#formation-master">Formation Master</a><ul class="submenu"><li><a href="#formation-master/ecrit-1">Écrit 1 - M</a></li><li><a href="#formation-master/ecrit-2">Écrit 2 - M</a></li><li><a href="#formation-master/oral-1">Oral 1</a></li><li><a href="#formation-master/oral-2">Oral 2</a></li><li><a href="#formation-master/oral-3">Oral 3</a></li></ul></li><li><a href="#formation-interne">Formation Interne</a></li><li><a href="#formation-licence">Formation Licence</a><ul class="submenu"><li><a href="#formation-licence/ecrit-1">Écrit 1 - L</a></li><li><a href="#formation-licence/ecrit-2">Écrit 2 - L</a></li><li><a href="#formation-licence/oral-1">Oral 1 (L)</a></li></ul></li><li><a href="#ressources">Ressources</a><ul class="submenu"><li><a href="#ressources/bibliotheque-numerique">Bibliothèque numérique</a></li><li><a href="#ressources/concours">Concours</a></li><li><a href="#ressources/contact">Contact</a></li></ul></li><li><a href="#staff">STAFF</a></li><li><a href="#deposer-un-document">Déposer un document</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+  </header>
+  <div class="auth-bar" style="background:#fff7ea;border-bottom:1px solid #e8d8b8;">
+    <div class="auth-bar__inner">
+      <span style="color:#a86c28;font-weight:600;">🔎 Mode démo — vue "déconnecté" / "connecté"</span>
+      <button class="btn btn-ghost" id="demo-toggle" type="button">Basculer la vue</button>
+      <span id="auth-status">Connecté·e (démo) : test@test.com</span>
+    </div>
+  </div>
+
+  <section class="route-section" data-route="accueil">
+    <section class="hero">
+      <div class="hero__inner">
+        <p class="eyebrow">Association de Formation aux Métiers de l'Enseignement</p>
+        <h1>AFME Paris 13 — Préparation CAPEPS</h1>
+        <p>Espace de dépôt et de téléchargement des supports de formation,
+          organisés par filière (Licence / Master) et par épreuve.</p>
+      </div>
+    </section>
+
+    <section class="content-section page-shell">
+      <h2>Calendriers de formation</h2>
+      <div class="calendar-grid">
+        <div class="calendar-card">
+          <h3>Formation Licence</h3>
+          <iframe src="https://www.google.com/calendar/embed?src=REPLACE_WITH_LICENCE_CALENDAR_ID" loading="lazy"></iframe>
+        </div>
+        <div class="calendar-card">
+          <h3>Formation Master</h3>
+          <iframe src="https://www.google.com/calendar/embed?src=REPLACE_WITH_MASTER_CALENDAR_ID" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section page-shell">
+      <h2>Actualités</h2>
+      <div class="docboard" data-doc-category="accueil-actualites">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents d'actualité</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section page-shell">
+      <h2>Accès rapide</h2>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Rubriques</h3><p>Accédez directement à une filière ou aux ressources.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Formation Master</div></div><a class="doc-card__action" href="#formation-master">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Formation Interne</div></div><a class="doc-card__action" href="#formation-interne">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Formation Licence</div></div><a class="doc-card__action" href="#formation-licence">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Ressources</div></div><a class="doc-card__action" href="#ressources">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">STAFF</div></div><a class="doc-card__action" href="#staff">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <span>Formation Master</span></nav>
+    <section class="content-section page-shell">
+      <h1>Formation Master</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrit 1 - M</div></div><a class="doc-card__action" href="#formation-master/ecrit-1">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrit 2 - M</div></div><a class="doc-card__action" href="#formation-master/ecrit-2">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Oral 1</div></div><a class="doc-card__action" href="#formation-master/oral-1">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Oral 2</div></div><a class="doc-card__action" href="#formation-master/oral-2">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Oral 3</div></div><a class="doc-card__action" href="#formation-master/oral-3">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master">Formation Master</a> / <span>Écrit 1 - M</span></nav>
+    <section class="content-section page-shell">
+      <h1>Écrit 1 - M</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Bases méthodologiques (E1 M)</div></div><a class="doc-card__action" href="#formation-master/ecrit-1/bases-methodologiques">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 1 (M) : Transmettre et adapter</div></div><a class="doc-card__action" href="#formation-master/ecrit-1/theme-1">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 2 (M) : Le geste et l'effort</div></div><a class="doc-card__action" href="#formation-master/ecrit-1/theme-2">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrits blancs (M)</div></div><a class="doc-card__action" href="#formation-master/ecrit-1/ecrits-blancs">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-1/bases-methodologiques" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-1">Écrit 1 - M</a> / <span>Bases méthodologiques (E1 M)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - M</h2>
+            <ul><li class="is-active"><a href="#formation-master/ecrit-1/bases-methodologiques">Bases méthodologiques (E1 M)</a></li><li class=""><a href="#formation-master/ecrit-1/theme-1">Thème 1 (M) : Transmettre et adapter</a></li><li class=""><a href="#formation-master/ecrit-1/theme-2">Thème 2 (M) : Le geste et l'effort</a></li><li class=""><a href="#formation-master/ecrit-1/ecrits-blancs">Écrits blancs (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Bases méthodologiques (E1 M)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-1-bases-methodologiques">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-1/theme-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-1">Écrit 1 - M</a> / <span>Thème 1 (M) : Transmettre et adapter</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - M</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-1/bases-methodologiques">Bases méthodologiques (E1 M)</a></li><li class="is-active"><a href="#formation-master/ecrit-1/theme-1">Thème 1 (M) : Transmettre et adapter</a></li><li class=""><a href="#formation-master/ecrit-1/theme-2">Thème 2 (M) : Le geste et l'effort</a></li><li class=""><a href="#formation-master/ecrit-1/ecrits-blancs">Écrits blancs (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 1 (M) : Transmettre et adapter</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-1-theme-1">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-1/theme-2" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-1">Écrit 1 - M</a> / <span>Thème 2 (M) : Le geste et l'effort</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - M</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-1/bases-methodologiques">Bases méthodologiques (E1 M)</a></li><li class=""><a href="#formation-master/ecrit-1/theme-1">Thème 1 (M) : Transmettre et adapter</a></li><li class="is-active"><a href="#formation-master/ecrit-1/theme-2">Thème 2 (M) : Le geste et l'effort</a></li><li class=""><a href="#formation-master/ecrit-1/ecrits-blancs">Écrits blancs (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 2 (M) : Le geste et l'effort</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-1-theme-2">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-1/ecrits-blancs" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-1">Écrit 1 - M</a> / <span>Écrits blancs (M)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - M</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-1/bases-methodologiques">Bases méthodologiques (E1 M)</a></li><li class=""><a href="#formation-master/ecrit-1/theme-1">Thème 1 (M) : Transmettre et adapter</a></li><li class=""><a href="#formation-master/ecrit-1/theme-2">Thème 2 (M) : Le geste et l'effort</a></li><li class="is-active"><a href="#formation-master/ecrit-1/ecrits-blancs">Écrits blancs (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Écrits blancs (M)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-1-ecrits-blancs">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-2" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master">Formation Master</a> / <span>Écrit 2 - M</span></nav>
+    <section class="content-section page-shell">
+      <h1>Écrit 2 - M</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 1 (M)</div></div><a class="doc-card__action" href="#formation-master/ecrit-2/theme-1">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 2 (M)</div></div><a class="doc-card__action" href="#formation-master/ecrit-2/theme-2">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 3 (M)</div></div><a class="doc-card__action" href="#formation-master/ecrit-2/theme-3">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrits blancs E2 (M)</div></div><a class="doc-card__action" href="#formation-master/ecrit-2/ecrits-blancs">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-2/theme-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-2">Écrit 2 - M</a> / <span>Thème 1 (M)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - M</h2>
+            <ul><li class="is-active"><a href="#formation-master/ecrit-2/theme-1">Thème 1 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/theme-2">Thème 2 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/theme-3">Thème 3 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/ecrits-blancs">Écrits blancs E2 (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 1 (M)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-2-theme-1">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-2/theme-2" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-2">Écrit 2 - M</a> / <span>Thème 2 (M)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - M</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-2/theme-1">Thème 1 (M)</a></li><li class="is-active"><a href="#formation-master/ecrit-2/theme-2">Thème 2 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/theme-3">Thème 3 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/ecrits-blancs">Écrits blancs E2 (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 2 (M)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-2-theme-2">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-2/theme-3" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-2">Écrit 2 - M</a> / <span>Thème 3 (M)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - M</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-2/theme-1">Thème 1 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/theme-2">Thème 2 (M)</a></li><li class="is-active"><a href="#formation-master/ecrit-2/theme-3">Thème 3 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/ecrits-blancs">Écrits blancs E2 (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 3 (M)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-2-theme-3">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/ecrit-2/ecrits-blancs" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master/ecrit-2">Écrit 2 - M</a> / <span>Écrits blancs E2 (M)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - M</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-2/theme-1">Thème 1 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/theme-2">Thème 2 (M)</a></li><li class=""><a href="#formation-master/ecrit-2/theme-3">Thème 3 (M)</a></li><li class="is-active"><a href="#formation-master/ecrit-2/ecrits-blancs">Écrits blancs E2 (M)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Écrits blancs E2 (M)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-ecrit-2-ecrits-blancs">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/oral-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master">Formation Master</a> / <span>Oral 1</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Formation Master</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-1">Écrit 1 - M</a></li><li class=""><a href="#formation-master/ecrit-2">Écrit 2 - M</a></li><li class="is-active"><a href="#formation-master/oral-1">Oral 1</a></li><li class=""><a href="#formation-master/oral-2">Oral 2</a></li><li class=""><a href="#formation-master/oral-3">Oral 3</a></li></ul>
+          </aside>
+        <div>
+          <h1>Oral 1</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-oral-1">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/oral-2" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master">Formation Master</a> / <span>Oral 2</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Formation Master</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-1">Écrit 1 - M</a></li><li class=""><a href="#formation-master/ecrit-2">Écrit 2 - M</a></li><li class=""><a href="#formation-master/oral-1">Oral 1</a></li><li class="is-active"><a href="#formation-master/oral-2">Oral 2</a></li><li class=""><a href="#formation-master/oral-3">Oral 3</a></li></ul>
+          </aside>
+        <div>
+          <h1>Oral 2</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-oral-2">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-master/oral-3" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-master">Formation Master</a> / <span>Oral 3</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Formation Master</h2>
+            <ul><li class=""><a href="#formation-master/ecrit-1">Écrit 1 - M</a></li><li class=""><a href="#formation-master/ecrit-2">Écrit 2 - M</a></li><li class=""><a href="#formation-master/oral-1">Oral 1</a></li><li class=""><a href="#formation-master/oral-2">Oral 2</a></li><li class="is-active"><a href="#formation-master/oral-3">Oral 3</a></li></ul>
+          </aside>
+        <div>
+          <h1>Oral 3</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-master-oral-3">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-interne" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <span>Formation Interne</span></nav>
+    <section class="content-section page-shell">
+      <div class="">
+        
+        <div>
+          <h1>Formation Interne</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-interne">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <span>Formation Licence</span></nav>
+    <section class="content-section page-shell">
+      <h1>Formation Licence</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrit 1 - L</div></div><a class="doc-card__action" href="#formation-licence/ecrit-1">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrit 2 - L</div></div><a class="doc-card__action" href="#formation-licence/ecrit-2">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Oral 1 (L)</div></div><a class="doc-card__action" href="#formation-licence/oral-1">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence">Formation Licence</a> / <span>Écrit 1 - L</span></nav>
+    <section class="content-section page-shell">
+      <h1>Écrit 1 - L</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Bases méthodologiques (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-1/bases-methodologiques">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 1 (L) : Le geste et l'effort</div></div><a class="doc-card__action" href="#formation-licence/ecrit-1/theme-1">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 2 (L) : Transmettre et adapter</div></div><a class="doc-card__action" href="#formation-licence/ecrit-1/theme-2">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrits blancs E1 (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-1/ecrits-blancs">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-1/bases-methodologiques" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-1">Écrit 1 - L</a> / <span>Bases méthodologiques (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - L</h2>
+            <ul><li class="is-active"><a href="#formation-licence/ecrit-1/bases-methodologiques">Bases méthodologiques (L)</a></li><li class=""><a href="#formation-licence/ecrit-1/theme-1">Thème 1 (L) : Le geste et l'effort</a></li><li class=""><a href="#formation-licence/ecrit-1/theme-2">Thème 2 (L) : Transmettre et adapter</a></li><li class=""><a href="#formation-licence/ecrit-1/ecrits-blancs">Écrits blancs E1 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Bases méthodologiques (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-1-bases-methodologiques">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-1/theme-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-1">Écrit 1 - L</a> / <span>Thème 1 (L) : Le geste et l'effort</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-1/bases-methodologiques">Bases méthodologiques (L)</a></li><li class="is-active"><a href="#formation-licence/ecrit-1/theme-1">Thème 1 (L) : Le geste et l'effort</a></li><li class=""><a href="#formation-licence/ecrit-1/theme-2">Thème 2 (L) : Transmettre et adapter</a></li><li class=""><a href="#formation-licence/ecrit-1/ecrits-blancs">Écrits blancs E1 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 1 (L) : Le geste et l'effort</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-1-theme-1">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-1/theme-2" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-1">Écrit 1 - L</a> / <span>Thème 2 (L) : Transmettre et adapter</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-1/bases-methodologiques">Bases méthodologiques (L)</a></li><li class=""><a href="#formation-licence/ecrit-1/theme-1">Thème 1 (L) : Le geste et l'effort</a></li><li class="is-active"><a href="#formation-licence/ecrit-1/theme-2">Thème 2 (L) : Transmettre et adapter</a></li><li class=""><a href="#formation-licence/ecrit-1/ecrits-blancs">Écrits blancs E1 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 2 (L) : Transmettre et adapter</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-1-theme-2">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-1/ecrits-blancs" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-1">Écrit 1 - L</a> / <span>Écrits blancs E1 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 1 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-1/bases-methodologiques">Bases méthodologiques (L)</a></li><li class=""><a href="#formation-licence/ecrit-1/theme-1">Thème 1 (L) : Le geste et l'effort</a></li><li class=""><a href="#formation-licence/ecrit-1/theme-2">Thème 2 (L) : Transmettre et adapter</a></li><li class="is-active"><a href="#formation-licence/ecrit-1/ecrits-blancs">Écrits blancs E1 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Écrits blancs E1 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-1-ecrits-blancs">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-2" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence">Formation Licence</a> / <span>Écrit 2 - L</span></nav>
+    <section class="content-section page-shell">
+      <h1>Écrit 2 - L</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Bases méthodologiques E2 (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-2/bases-methodologiques">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 1 (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-2/theme-1">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 2 (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-2/theme-2">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 3 (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-2/theme-3">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Thème 4 (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-2/theme-4">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Écrits blancs E2 (L)</div></div><a class="doc-card__action" href="#formation-licence/ecrit-2/ecrits-blancs">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-2/bases-methodologiques" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-2">Écrit 2 - L</a> / <span>Bases méthodologiques E2 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - L</h2>
+            <ul><li class="is-active"><a href="#formation-licence/ecrit-2/bases-methodologiques">Bases méthodologiques E2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-1">Thème 1 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-2">Thème 2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-3">Thème 3 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-4">Thème 4 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/ecrits-blancs">Écrits blancs E2 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Bases méthodologiques E2 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-2-bases-methodologiques">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-2/theme-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-2">Écrit 2 - L</a> / <span>Thème 1 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-2/bases-methodologiques">Bases méthodologiques E2 (L)</a></li><li class="is-active"><a href="#formation-licence/ecrit-2/theme-1">Thème 1 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-2">Thème 2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-3">Thème 3 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-4">Thème 4 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/ecrits-blancs">Écrits blancs E2 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 1 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-2-theme-1">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-2/theme-2" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-2">Écrit 2 - L</a> / <span>Thème 2 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-2/bases-methodologiques">Bases méthodologiques E2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-1">Thème 1 (L)</a></li><li class="is-active"><a href="#formation-licence/ecrit-2/theme-2">Thème 2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-3">Thème 3 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-4">Thème 4 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/ecrits-blancs">Écrits blancs E2 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 2 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-2-theme-2">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-2/theme-3" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-2">Écrit 2 - L</a> / <span>Thème 3 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-2/bases-methodologiques">Bases méthodologiques E2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-1">Thème 1 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-2">Thème 2 (L)</a></li><li class="is-active"><a href="#formation-licence/ecrit-2/theme-3">Thème 3 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-4">Thème 4 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/ecrits-blancs">Écrits blancs E2 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 3 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-2-theme-3">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-2/theme-4" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-2">Écrit 2 - L</a> / <span>Thème 4 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-2/bases-methodologiques">Bases méthodologiques E2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-1">Thème 1 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-2">Thème 2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-3">Thème 3 (L)</a></li><li class="is-active"><a href="#formation-licence/ecrit-2/theme-4">Thème 4 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/ecrits-blancs">Écrits blancs E2 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Thème 4 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-2-theme-4">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/ecrit-2/ecrits-blancs" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence/ecrit-2">Écrit 2 - L</a> / <span>Écrits blancs E2 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Écrit 2 - L</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-2/bases-methodologiques">Bases méthodologiques E2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-1">Thème 1 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-2">Thème 2 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-3">Thème 3 (L)</a></li><li class=""><a href="#formation-licence/ecrit-2/theme-4">Thème 4 (L)</a></li><li class="is-active"><a href="#formation-licence/ecrit-2/ecrits-blancs">Écrits blancs E2 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Écrits blancs E2 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-ecrit-2-ecrits-blancs">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="formation-licence/oral-1" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#formation-licence">Formation Licence</a> / <span>Oral 1 (L)</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Formation Licence</h2>
+            <ul><li class=""><a href="#formation-licence/ecrit-1">Écrit 1 - L</a></li><li class=""><a href="#formation-licence/ecrit-2">Écrit 2 - L</a></li><li class="is-active"><a href="#formation-licence/oral-1">Oral 1 (L)</a></li></ul>
+          </aside>
+        <div>
+          <h1>Oral 1 (L)</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="formation-licence-oral-1">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="ressources" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <span>Ressources</span></nav>
+    <section class="content-section page-shell">
+      <h1>Ressources</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Bibliothèque numérique</div></div><a class="doc-card__action" href="#ressources/bibliotheque-numerique">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Concours</div></div><a class="doc-card__action" href="#ressources/concours">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Contact</div></div><a class="doc-card__action" href="#ressources/contact">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="ressources/bibliotheque-numerique" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#ressources">Ressources</a> / <span>Bibliothèque numérique</span></nav>
+    <section class="content-section page-shell">
+      <h1>Bibliothèque numérique</h1>
+      <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard">
+        <div class="docboard__head">
+          <div><h3>Sous-rubriques</h3><p>Sélectionnez une partie pour accéder aux supports correspondants.</p></div>
+        </div>
+        <ul class="doc-list"><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Textes officiels</div></div><a class="doc-card__action" href="#ressources/bibliotheque-numerique/textes-officiels">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Articles</div></div><a class="doc-card__action" href="#ressources/bibliotheque-numerique/articles">Ouvrir</a></li><li class="doc-card"><div class="doc-card__icon">📂</div><div class="doc-card__body"><div class="doc-card__name">Copies de concours</div></div><a class="doc-card__action" href="#ressources/bibliotheque-numerique/copies-de-concours">Ouvrir</a></li></ul>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="ressources/bibliotheque-numerique/textes-officiels" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#ressources/bibliotheque-numerique">Bibliothèque numérique</a> / <span>Textes officiels</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Bibliothèque numérique</h2>
+            <ul><li class="is-active"><a href="#ressources/bibliotheque-numerique/textes-officiels">Textes officiels</a></li><li class=""><a href="#ressources/bibliotheque-numerique/articles">Articles</a></li><li class=""><a href="#ressources/bibliotheque-numerique/copies-de-concours">Copies de concours</a></li></ul>
+          </aside>
+        <div>
+          <h1>Textes officiels</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="ressources-bibliotheque-numerique-textes-officiels">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="ressources/bibliotheque-numerique/articles" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#ressources/bibliotheque-numerique">Bibliothèque numérique</a> / <span>Articles</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Bibliothèque numérique</h2>
+            <ul><li class=""><a href="#ressources/bibliotheque-numerique/textes-officiels">Textes officiels</a></li><li class="is-active"><a href="#ressources/bibliotheque-numerique/articles">Articles</a></li><li class=""><a href="#ressources/bibliotheque-numerique/copies-de-concours">Copies de concours</a></li></ul>
+          </aside>
+        <div>
+          <h1>Articles</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="ressources-bibliotheque-numerique-articles">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="ressources/bibliotheque-numerique/copies-de-concours" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#ressources/bibliotheque-numerique">Bibliothèque numérique</a> / <span>Copies de concours</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Bibliothèque numérique</h2>
+            <ul><li class=""><a href="#ressources/bibliotheque-numerique/textes-officiels">Textes officiels</a></li><li class=""><a href="#ressources/bibliotheque-numerique/articles">Articles</a></li><li class="is-active"><a href="#ressources/bibliotheque-numerique/copies-de-concours">Copies de concours</a></li></ul>
+          </aside>
+        <div>
+          <h1>Copies de concours</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="ressources-bibliotheque-numerique-copies-de-concours">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="ressources/concours" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#ressources">Ressources</a> / <span>Concours</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Ressources</h2>
+            <ul><li class=""><a href="#ressources/bibliotheque-numerique">Bibliothèque numérique</a></li><li class="is-active"><a href="#ressources/concours">Concours</a></li><li class=""><a href="#ressources/contact">Contact</a></li></ul>
+          </aside>
+        <div>
+          <h1>Concours</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="ressources-concours">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="ressources/contact" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <a href="#ressources">Ressources</a> / <span>Contact</span></nav>
+    <section class="content-section page-shell">
+      <div class="with-sidebar">
+        <aside class="page-sidebar">
+            <h2>Ressources</h2>
+            <ul><li class=""><a href="#ressources/bibliotheque-numerique">Bibliothèque numérique</a></li><li class=""><a href="#ressources/concours">Concours</a></li><li class="is-active"><a href="#ressources/contact">Contact</a></li></ul>
+          </aside>
+        <div>
+          <h1>Contact</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="ressources-contact">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="staff" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <span>STAFF</span></nav>
+    <section class="content-section page-shell">
+      <div class="">
+        
+        <div>
+          <h1>STAFF</h1>
+          <p>Contenu à intégrer par l'équipe AFME.</p>
+      <div class="docboard" data-doc-category="staff">
+        <div class="docboard__head">
+          <div>
+            <h3>Documents</h3>
+            <p>Supports déposés par l'équipe, téléchargeables par tous les adhérents.</p>
+          </div>
+        </div>
+        <ul class="doc-list">
+          <li class="doc-card">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__body">
+              <div class="doc-card__name">Exemple-document.pdf</div>
+              <div class="doc-card__meta">12 juin 2026 · 1.4 Mo · déposé par tuteur@afme.fr</div>
+            </div>
+            <a class="doc-card__action" href="#" onclick="return false;">Télécharger</a>
+          </li>
+        </ul>
+        <div class="upload-zone">
+          <button class="upload-toggle btn btn-ghost" type="button">Ajouter un document</button>
+          <form class="upload-form" hidden>
+            <div class="upload-zone__row">
+              <input type="text" placeholder="Nom du document (optionnel)" />
+              <input type="file" required />
+              <button class="btn btn-primary" type="submit">Déposer</button>
+            </div>
+            <div class="progress-track"><div class="progress-bar"></div></div>
+            <p class="upload-status"></p>
+          </form>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="route-section" data-route="deposer-un-document" hidden>
+    <nav class="breadcrumb page-shell" aria-label="Fil d'Ariane"><a href="#accueil">Accueil</a> / <span>Déposer un document</span></nav>
+    <section class="content-section page-shell">
+      <h1>Déposer un document</h1>
+      <p>Choisissez la page de destination, nommez le document, puis déposez le fichier.
+        Il apparaîtra directement dans la liste de téléchargement de la page choisie.</p>
+
+      <div id="central-upload-guard" class="central-upload" hidden>
+        <p class="signin-notice">Connecte-toi (barre en haut de page) pour pouvoir déposer un document.</p>
+      </div>
+
+      <form id="central-upload-form" class="central-upload">
+        <div class="field">
+          <label for="central-upload-target">Page de destination</label>
+          <select id="central-upload-target" required>
+            <option value="" disabled selected>Choisir une page…</option>
+            <option value="accueil-actualites" data-route="accueil">Accueil / Actualités</option><option value="formation-master-ecrit-1-bases-methodologiques" data-route="formation-master/ecrit-1/bases-methodologiques">Formation Master / Écrit 1 - M / Bases méthodologiques (E1 M)</option><option value="formation-master-ecrit-1-theme-1" data-route="formation-master/ecrit-1/theme-1">Formation Master / Écrit 1 - M / Thème 1 (M) : Transmettre et adapter</option><option value="formation-master-ecrit-1-theme-2" data-route="formation-master/ecrit-1/theme-2">Formation Master / Écrit 1 - M / Thème 2 (M) : Le geste et l'effort</option><option value="formation-master-ecrit-1-ecrits-blancs" data-route="formation-master/ecrit-1/ecrits-blancs">Formation Master / Écrit 1 - M / Écrits blancs (M)</option><option value="formation-master-ecrit-2-theme-1" data-route="formation-master/ecrit-2/theme-1">Formation Master / Écrit 2 - M / Thème 1 (M)</option><option value="formation-master-ecrit-2-theme-2" data-route="formation-master/ecrit-2/theme-2">Formation Master / Écrit 2 - M / Thème 2 (M)</option><option value="formation-master-ecrit-2-theme-3" data-route="formation-master/ecrit-2/theme-3">Formation Master / Écrit 2 - M / Thème 3 (M)</option><option value="formation-master-ecrit-2-ecrits-blancs" data-route="formation-master/ecrit-2/ecrits-blancs">Formation Master / Écrit 2 - M / Écrits blancs E2 (M)</option><option value="formation-master-oral-1" data-route="formation-master/oral-1">Formation Master / Oral 1</option><option value="formation-master-oral-2" data-route="formation-master/oral-2">Formation Master / Oral 2</option><option value="formation-master-oral-3" data-route="formation-master/oral-3">Formation Master / Oral 3</option><option value="formation-interne" data-route="formation-interne">Formation Interne</option><option value="formation-licence-ecrit-1-bases-methodologiques" data-route="formation-licence/ecrit-1/bases-methodologiques">Formation Licence / Écrit 1 - L / Bases méthodologiques (L)</option><option value="formation-licence-ecrit-1-theme-1" data-route="formation-licence/ecrit-1/theme-1">Formation Licence / Écrit 1 - L / Thème 1 (L) : Le geste et l'effort</option><option value="formation-licence-ecrit-1-theme-2" data-route="formation-licence/ecrit-1/theme-2">Formation Licence / Écrit 1 - L / Thème 2 (L) : Transmettre et adapter</option><option value="formation-licence-ecrit-1-ecrits-blancs" data-route="formation-licence/ecrit-1/ecrits-blancs">Formation Licence / Écrit 1 - L / Écrits blancs E1 (L)</option><option value="formation-licence-ecrit-2-bases-methodologiques" data-route="formation-licence/ecrit-2/bases-methodologiques">Formation Licence / Écrit 2 - L / Bases méthodologiques E2 (L)</option><option value="formation-licence-ecrit-2-theme-1" data-route="formation-licence/ecrit-2/theme-1">Formation Licence / Écrit 2 - L / Thème 1 (L)</option><option value="formation-licence-ecrit-2-theme-2" data-route="formation-licence/ecrit-2/theme-2">Formation Licence / Écrit 2 - L / Thème 2 (L)</option><option value="formation-licence-ecrit-2-theme-3" data-route="formation-licence/ecrit-2/theme-3">Formation Licence / Écrit 2 - L / Thème 3 (L)</option><option value="formation-licence-ecrit-2-theme-4" data-route="formation-licence/ecrit-2/theme-4">Formation Licence / Écrit 2 - L / Thème 4 (L)</option><option value="formation-licence-ecrit-2-ecrits-blancs" data-route="formation-licence/ecrit-2/ecrits-blancs">Formation Licence / Écrit 2 - L / Écrits blancs E2 (L)</option><option value="formation-licence-oral-1" data-route="formation-licence/oral-1">Formation Licence / Oral 1 (L)</option><option value="ressources-bibliotheque-numerique-textes-officiels" data-route="ressources/bibliotheque-numerique/textes-officiels">Ressources / Bibliothèque numérique / Textes officiels</option><option value="ressources-bibliotheque-numerique-articles" data-route="ressources/bibliotheque-numerique/articles">Ressources / Bibliothèque numérique / Articles</option><option value="ressources-bibliotheque-numerique-copies-de-concours" data-route="ressources/bibliotheque-numerique/copies-de-concours">Ressources / Bibliothèque numérique / Copies de concours</option><option value="ressources-concours" data-route="ressources/concours">Ressources / Concours</option><option value="ressources-contact" data-route="ressources/contact">Ressources / Contact</option><option value="staff" data-route="staff">STAFF</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="central-upload-label">Nom du document</label>
+          <input id="central-upload-label" type="text" placeholder="ex. Fiche méthodologique - dissertation" required />
+        </div>
+        <div class="field">
+          <label for="central-upload-file">Fichier</label>
+          <input id="central-upload-file" type="file" required />
+        </div>
+        <button class="btn btn-primary" type="submit">Déposer le document</button>
+        <div class="progress-track"><div class="progress-bar"></div></div>
+        <p class="upload-status"></p>
+      </form>
+    </section>
+  </section>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <span>© AFME Paris 13 — Préparation CAPEPS</span>
+      <a href="#ressources/contact">Contact</a>
+    </div>
+  </footer>
+
+    <script>
+document.getElementById("nav-toggle")?.addEventListener("click", () => {
+  const nav = document.getElementById("main-nav");
+  const btn = document.getElementById("nav-toggle");
+  const open = nav.classList.toggle("is-open");
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+});
+
+  </script>
+  <script>
+// ===========================================================================
+// Routeur simple "une seule page" : affiche la section correspondant au
+// hash de l'URL (#formation-master/ecrit-1/theme-1, etc.) et masque les
+// autres. Met aussi à jour l'état actif du menu et du fil d'Ariane.
+// ===========================================================================
+
+function currentRoute() {
+  const hash = window.location.hash.replace(/^#/, "");
+  return hash || "accueil";
+}
+
+function showRoute(route) {
+  document.querySelectorAll(".route-section").forEach((sec) => {
+    sec.hidden = sec.dataset.route !== route;
+  });
+
+  document.querySelectorAll("nav.main-nav a").forEach((a) => {
+    const target = a.getAttribute("href").replace(/^#/, "");
+    a.parentElement.classList.toggle(
+      "is-active",
+      target === route || (target !== "accueil" && route.startsWith(target + "/"))
+    );
+  });
+
+  const titleEl = document.querySelector(
+    `.route-section[data-route="${CSS.escape(route)}"] h1`
+  );
+  document.title = titleEl
+    ? `${titleEl.textContent} — AFME Paris 13`
+    : "AFME Paris 13";
+
+  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+
+  // ferme le menu mobile après navigation
+  document.getElementById("main-nav")?.classList.remove("is-open");
+}
+
+window.addEventListener("hashchange", () => showRoute(currentRoute()));
+window.addEventListener("DOMContentLoaded", () => showRoute(currentRoute()));
+
+  </script>
+
+  <script>
+    let connected = true;
+    const statusEl = document.getElementById("auth-status");
+    const toggleBtn = document.getElementById("demo-toggle");
+    const centralGuard = document.getElementById("central-upload-guard");
+    const centralForm = document.getElementById("central-upload-form");
+
+    function applyState() {
+      document.querySelectorAll(".upload-zone").forEach(z => { z.hidden = !connected; });
+      if (centralGuard) centralGuard.hidden = connected;
+      if (centralForm) centralForm.hidden = !connected;
+      statusEl.textContent = connected
+        ? "Connecté·e (démo) : test@test.com"
+        : "Non connecté·e (démo) — lecture seule";
+    }
+    toggleBtn.addEventListener("click", () => {
+      connected = !connected;
+      applyState();
+    });
+    applyState();
+
+    // Bouton "+" Ajouter un document sur chaque page : révèle le petit formulaire
+    document.querySelectorAll(".upload-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const form = btn.parentElement.querySelector(".upload-form");
+        const open = form.hidden;
+        form.hidden = !open;
+        btn.textContent = open ? "Annuler" : "Ajouter un document";
+      });
+    });
+
+    // Empêche les vraies soumissions (pas de Firebase dans cette démo)
+    document.querySelectorAll(".upload-form, #central-upload-form").forEach((f) => {
+      f.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const status = f.querySelector(".upload-status");
+        if (status) {
+          status.textContent = "(démo) Document déposé avec succès.";
+          status.dataset.state = "ok";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
